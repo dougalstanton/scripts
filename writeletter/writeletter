@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+function help
+{
+    APP=`basename $0`
+    echo "Usage $APP new  <file.markdown>"
+    echo "           - create new letter template"
+    echo "      $APP make <file.markdown>"
+    echo "           - generate file.markdown.pdf"
+}
+
+function newletter
+{
+    NEWLETTER=$1
+    LETTER=$HOME/.pandoc/input/letter.markdown
+    if [ -e $NEWLETTER ]
+    then
+        echo "File $NEWLETTER already exists. Exiting."
+        exit 2
+    fi
+    if [ ! -e $LETTER ]
+    then
+        echo "Template file $LETTER is missing. Exiting."
+        exit 3
+    fi
+
+    cp $LETTER $NEWLETTER
+    vim $NEWLETTER
+}
+
+function makeletter
+{
+    MARKDOWN=$1
+    if [ ! -e $MARKDOWN ]
+    then
+        echo "Letter $MARKDOWN is missing. Exiting."
+        exit 4
+    fi
+    PDF=${MARKDOWN}.pdf
+    if [ -e $PDF ]
+    then
+        echo "File $PDF already exists. Exiting."
+        exit 5
+    fi
+
+    pandoc --to latex --template letter $MARKDOWN -o $PDF
+}
+
+if [ $# -lt 2 ]
+then
+    help
+    exit 1
+fi
+
+case "$1" in
+
+new) newletter $2 ;;
+make) makeletter $2 ;;
+help) help ;;
+
+esac
+
+exit 0
