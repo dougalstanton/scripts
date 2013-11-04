@@ -92,18 +92,18 @@ $endif$
 
 \begin{document}
 
-$if(from.address)$
-\address{$for(from.address)$ $from.address$$sep$\\ $endfor$}
+$if(from-address)$
+\address{$for(from-address)$ $from-address$$sep$\\ $endfor$}
 $endif$
 
-$if(from.name)$
-\signature{$from.name$}
+$if(from-name)$
+\signature{$from-name$}
 $endif$
 
-\begin{letter}{$for(to.address)$ $to.address$$sep$\\ $endfor$}
+\begin{letter}{$for(to-address)$ $to-address$$sep$\\ $endfor$}
 
-$if(to.name)$
-\opening{Dear $to.name$,}
+$if(to-name)$
+\opening{Dear $to-name$,}
 $body$
 \closing{Yours sincerely,}
 $else$
